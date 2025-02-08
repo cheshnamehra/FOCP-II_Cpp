@@ -1,0 +1,290 @@
+Q1.1. #include <iostream>
+using namespace std;
+int main(){
+int num;
+  cout<<"Enter a number : ";
+  cin>>num;
+  for (int i=2;i<num;i++){
+     if (num%i==0){
+      cout<<"It is not a  prime number. "<<endl;
+      return 0;
+  }
+ }
+cout<< "it is a prime num";       
+
+  return 0;
+}
+
+
+Q1.2. #include <iostream>
+using namespace std;
+int main(){
+  int n;
+  cout<<"Enter a number : "<<endl;
+  cin>>n;
+  cout << "The factors of " << n << " are : ";
+  int count=0;
+  for (int i=1;i<n;i++){
+    if (n%i==0){
+      cout << i << " "; 
+    count++; 
+    }
+  }
+  cout << endl;
+  return 0;
+}
+
+
+Q1.3. #include <iostream>
+using namespace std;
+int main(){
+  int n, nextPrime;
+  cout<<"Enter the number : ";
+  cin>>n;
+  if(nextPrime = n + 1) {
+    while (true) {
+        int i;
+        for (i = 2; i * i <= nextPrime; i++) {
+            if (nextPrime % i == 0) break; 
+        }
+        if (i * i > nextPrime) break; 
+        nextPrime++;
+    }
+  }
+    cout << "Next higher prime : " << nextPrime << endl;
+    return 0;
+  
+}
+
+
+
+
+Q2.a. #include <iostream>
+using namespace std;
+
+int main() {
+    int size;
+    cout << "Enter the size of array: ";
+    cin >> size;
+    int *arr = new int[size];
+    cout << "Enter " << size << " integers:" << endl;
+    for (int i = 0; i < size; i++) {
+        cin >> arr[i];
+    }
+    cout << "You entered: ";
+    for (int i = 0; i < size; i++) {
+        cout << arr[i] << " ";
+    }
+    cout << endl;
+
+    delete[] arr;
+
+    return 0;
+}
+
+
+Q2.b. #include <iostream>
+using namespace std;
+
+int main() {
+    int size;
+    cout << "Enter the size of array: ";
+    cin >> size;
+    int *arr = new int[size];
+    cout << "Enter " << size << " integers:" << endl;
+    for (int i = 0; i < size; i++) {
+        cin >> arr[i];
+    }
+    cout << "You entered: ";
+    for (int i = 0; i < size; i++) {
+        cout << arr[i] << " ";
+    }
+    cout << endl;
+    cout << "Array in reverse order: ";
+    for (int i = size - 1; i >= 0; i--) {
+        cout << arr[i] << " ";
+    }
+    cout << endl;
+    delete[] arr;
+
+    return 0;
+}
+
+
+Q2.c. #include <iostream>
+#include <limits.h>
+using namespace std;
+
+int main() {
+    int size;
+    cout << "Enter the size of the array : ";
+    cin >> size;
+
+    int *arr = new int[size];
+    cout << "Enter " << size << " integers :" << endl;
+    for (int i = 0; i < size; i++) {
+        cin >> arr[i];
+    }
+
+    int firstMax = INT_MIN, secondMax = INT_MIN;
+    int firstMin = INT_MAX, secondMin = INT_MAX;
+
+    for (int i = 0; i < size; i++) {
+        if (arr[i] > firstMax) {
+            secondMax = firstMax;
+            firstMax = arr[i];
+        } else if (arr[i] > secondMax && arr[i] != firstMax) {
+            secondMax = arr[i];
+        }
+
+        if (arr[i] < firstMin) {
+            secondMin = firstMin;
+            firstMin = arr[i];
+        } else if (arr[i] < secondMin && arr[i] != firstMin) {
+            secondMin = arr[i];
+        }
+    }
+
+    cout << "Second largest element: " << secondMax << endl;
+    cout << "Second smallest element: " << secondMin << endl;
+
+    delete[] arr;
+    return 0;
+}
+
+
+Q3.a. #include <iostream>
+#include <string>
+using namespace std;
+int main() {
+    string input;
+    cout << "Please enter : ";
+    getline(cin, input);
+    cout << "You have entered ,  " << input << endl;
+    return 0;
+}
+
+
+Q3.b. #include <iostream>
+#include <string>
+using namespace std;
+
+int main() {
+    string input;
+    cout << "Please enter a string: ";
+    getline(cin, input);
+
+    bool isPalindrome = true;
+    for (int i = 0; i < input.length() / 2; i++) {
+        if (input[i] != input[input.length() - 1 - i]) {
+            isPalindrome = false;
+            break;
+        }
+    }
+
+    cout << "\"" << input << "\" is " << (isPalindrome ? "" : "not ") << "a palindrome." << endl;
+    return 0;
+}*/
+
+
+Q3.c. #include <iostream>
+#include <string>
+using namespace std;
+
+int main() {
+    string input;
+    int frequency[26] = {0}; // (assumed lowercase only)
+
+    cout << "Please enter : ";
+    getline(cin, input);
+    for (char c : input) {
+        if (isalpha(c)) {
+            c = tolower(c);
+            frequency[c - 'a']++;
+        }
+    }
+    cout << "Character frequency (case insensitive):" << endl;
+    for (int i = 0; i < 26; i++) {
+        if (frequency[i] > 0) {
+            cout << char('a' + i) << ": " << frequency[i] << endl;
+        }
+    }
+
+    return 0;
+}
+
+Q3.d. #include <iostream>
+#include <string>
+using namespace std;
+
+int main() {
+    string input;
+    cout << "Please enter : ";
+    getline(cin, input);
+    for (char &c : input) {
+        c = tolower(c);
+        if (c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u') {
+            c = '%';
+        }
+    }
+    cout << "Modified string: " << input << endl;
+    return 0;
+}
+
+
+Q4. #include <iostream>
+using namespace std;
+
+int main() {
+    int n;
+    cout << "Enter the value  of n for matrix : ";
+    cin >> n;
+    int matrix[n][n];
+    int number = 1;
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            matrix[i][j] = number++;
+        }
+    }
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            cout << matrix[i][j] << " ";
+        }
+        cout << endl;
+    }
+
+    return 0;
+}
+
+
+Q5. #include <iostream>
+using namespace std;
+
+int main() {
+    int n;
+    cout << "Enter the value  of n for matrix : ";
+    cin >> n;
+
+    int matrix[n][n];
+    int rotatedMatrix[n][n];
+    int number = 1;
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            matrix[i][j] = number++;
+        }
+    }
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            rotatedMatrix[j][n - 1 - i] = matrix[i][j];
+        }
+    }
+    cout << " 90 degrees" << endl;
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            cout << rotatedMatrix[i][j] << " ";
+        }
+        cout << endl;
+    }
+
+    return 0;
+}
