@@ -1,0 +1,156 @@
+#include <iostream>
+#include <vector>
+#include <map> 
+#include <algorithm> 
+using namespace std;
+
+class Person {
+protected:
+    string name;
+    int age;
+    string ID;
+    string contactInfo;  
+public:
+    Person(string n, int a, string id, string contact) : name(n), age(a), ID(id), contactInfo(contact) {}
+
+    string getName() { return name; }
+    int getAge() { return age; }
+    string getID() { return ID; }
+    string getContactInfo() { return contactInfo; }
+
+    void setName(string n) { if (!n.empty()) name = n; }
+    void setAge(int a) { if (a > 0 && a < 120) age = a; }
+
+    virtual void displayDetails() {
+        cout << "Name: " << name << ", Age: " << age << ", ID: " << ID << ", Contact: " << contactInfo << endl;
+    }
+
+    virtual double calculatePayment() { return 0.0; }  
+};
+
+class Student : public Person {
+private:
+    string enrollmentDate;
+    string program;
+    double GPA;
+public:
+    Student(string n, int a, string id, string contact, string eDate, string prog, double gpa)
+        : Person(n, a, id, contact), enrollmentDate(eDate), program(prog), GPA(gpa) {}
+
+    double getGPA() { return GPA; }
+    void setGPA(double gpa) { if (gpa >= 0.0 && gpa <= 4.0) GPA = gpa; }
+
+    void displayDetails() override {
+        Person::displayDetails();
+        cout << "Enrollment Date: " << enrollmentDate << ", Program: " << program << ", GPA: " << GPA << endl;
+    }
+};
+
+class Professor : public Person {
+private:
+    string department;
+    string specialization;
+    string hireDate;
+public:
+    Professor(string n, int a, string id, string contact, string dept, string spec, string hDate)
+        : Person(n, a, id, contact), department(dept), specialization(spec), hireDate(hDate) {}
+
+    void displayDetails() override {
+        Person::displayDetails();
+        cout << "Department: " << department << ", Specialization: " << specialization<< ", Hire Date: " << hireDate << endl;
+    }
+};
+
+class GradeBook {
+private:
+    map<string, double> studentGrades;  
+public:
+    void addGrade(string studentID, double grade) {
+        if (grade >= 0.0 && grade <= 4.0) {
+            studentGrades[studentID] = grade;
+        } else {
+            cout << "Invalid grade! Must be between 0.0 and 4.0.\n";
+        }
+    }
+
+    double calculateAverageGrade() {
+        if (studentGrades.empty()) return 0.0;
+        double sum = 0;
+        for (auto g : studentGrades) sum += g.second;
+        return sum / studentGrades.size();
+    }
+
+    double getHighestGrade() {
+        if (studentGrades.empty()) return 0.0;
+        double highest = 0.0;
+        for (auto g : studentGrades) {
+            if (g.second > highest) highest = g.second;
+        }
+        return highest;
+    }
+
+    vector<string> getFailingStudents() {
+        vector<string> failingStudents;
+        for (auto g : studentGrades) {
+            if (g.second < 2.0) failingStudents.push_back(g.first);
+        }
+        return failingStudents;
+    }
+};
+
+class EnrollmentManager {
+private:
+    map<string, vector<string>> courseEnrollments;  
+public:
+    void enrollStudent(string studentID, string courseCode) {
+        courseEnrollments[courseCode].push_back(studentID);
+    }
+
+    void dropStudent(string studentID, string courseCode) {
+        if (courseEnrollments.find(courseCode) != courseEnrollments.end()) {
+            auto &students = courseEnrollments[courseCode];
+            students.erase(remove(students.begin(), students.end(), studentID), students.end());
+        }
+    }
+
+    int getEnrollmentCount(string courseCode) {
+        if (courseEnrollments.find(courseCode) == courseEnrollments.end()) return 0;
+        return courseEnrollments[courseCode].size();
+    }
+};
+
+void showPersonDetails(Person &p) {
+    p.displayDetails();
+}
+
+int main() {
+    Student s1("Amandeep Singh", 20, "S123", "amandeep@email.com", "2023-08-01", "Computer Science", 3.8);
+    Professor p1("Ms. Mehra", 45, "P456", "mehra@email.com", "Maths", "Algebra", "2010-07-15");
+
+    GradeBook gb;
+    gb.addGrade("S123", 3.8);
+    gb.addGrade("S456", 1.8); 
+    gb.addGrade("S789", 2.9);
+
+    EnrollmentManager em;
+    em.enrollStudent("S123", "CS101");
+    em.enrollStudent("S456", "CS101");
+    em.enrollStudent("S789", "CS102");
+
+    showPersonDetails(s1);
+    showPersonDetails(p1);
+
+    cout << "\nGradeBook Details:\n";
+    cout << "Average Grade: " << gb.calculateAverageGrade() << endl;
+    cout << "Highest Grade: " << gb.getHighestGrade() << endl;
+
+    vector<string> failing = gb.getFailingStudents();
+    cout << "Failing Students: ";
+    for (string id : failing) cout << id << " ";
+    cout << endl;
+
+    cout << "\nEnrollmentManager Details:\n";
+    cout << "CS101 Enrollment Count: " << em.getEnrollmentCount("CS101") << endl;
+
+    return 0;
+}
